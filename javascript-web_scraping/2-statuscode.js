@@ -1,13 +1,13 @@
 #!/usr/bin/node
-// comment.
+// comment
 
-const req = require('request');
+const request = require('request');
 
 const url = process.argv[2];
 
-req(url, function (err, response) {
-  if (err != null) {
-    console.err('err:', err);
+request(url, function (error, response) {
+  if (error != null) {
+    console.error('error:', error);
     return;
   }
   console.log('code:', response && response.statusCode);
