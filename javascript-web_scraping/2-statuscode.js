@@ -1,11 +1,11 @@
 #!/usr/bin/node
 // comment
 
-const request = require('request');
+const req = require('request');
 
-request(process.argv[2], (error, response) => {
+req(process.argv[2], (error, content) => {
   if (error) {
     console.error(error);
   }
-  console.log(`code: ${response.statusCode}`);
+  console.log(`code: ${content.statusCode}`);
 });
