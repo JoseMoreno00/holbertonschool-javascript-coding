@@ -1,23 +1,19 @@
 #!/usr/bin/node
 // comment
 
-const res = require('request');
-
-const api = process.argv[2];
-const id = '18';
-
-res(api, function (error, response, body) {
-  if (error != null) {
-    console.error('error:', error);
+const req = require('request');
+let count = 0;
+req(process.argv[2], (error, content) => {
+  if (error) {
+    console.error(error);
   }
-  const objMovie = JSON.parse(body);
-  let count = 0;
-  objMovie.results.forEach(element => {
-    element.characters.forEach(item => {
-      if (item.includes(id)) {
-        count += 1;
+  const jason = JSON.parse(content.body).results;
+  for (const x of jason) {
+    for (const y of x.characters) {
+      if (y.includes('18')) {
+        count++;
       }
-    });
-  });
+    }
+  }
   console.log(count);
 });
