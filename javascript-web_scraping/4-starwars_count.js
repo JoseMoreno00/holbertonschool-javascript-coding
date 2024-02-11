@@ -1,5 +1,5 @@
 #!/usr/bin/node
-//comment
+// comment
 
 let count = 0;
 
