@@ -1,31 +1,19 @@
 #!/usr/bin/node
-// comment
+// coment
 const request = require('request');
+const apiUrl = process.argv[2];
 
-const url = process.argv[2];
-
-request(url, function (error, response, body) {
-  if (error != null) {
-    console.error('error:', error);
+request.get(apiUrl, (err, response, body) => {
+  if (err) {
+    console.log(err);
   }
-  const content = JSON.parse(body);
-  const users = [];
-  content.forEach(item => {
-    if (!users.includes(item.userId)) {
-      users.push(item.userId);
+  const completedTasks = {};
+  const todo = JSON.parse(body);
+  todo.forEach(task => {
+    if (task.completed) {
+      if (!completedTasks[task.userId]) completedTasks[task.userId] = 1;
+      else completedTasks[task.userId] += 1;
     }
   });
-  let result = {};
-  users.forEach(item => {
-    let counter = 0;
-    content.forEach(element => {
-      if (item === element.userId && element.completed === true) {
-        counter += 1;
-      }
-    });
-    if (counter > 0) {
-      result[item] = counter;
-    }
-  });
-  console.log(result);
+  console.log(completedTasks);
 });
