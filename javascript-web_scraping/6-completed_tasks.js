@@ -1,31 +1,23 @@
 #!/usr/bin/node
 // comment
-const res = require('request');
 
-const url = process.argv[2];
+const { request } = request('request');
+const dict = {};
 
-res(url, function (error, response, body) {
-  if (error != null) {
-    console.error('error:', error);
+request(process.argv[2], (error, response, data) => {
+  if (error) {
+    console.error(error);
   }
-  const content = JSON.parse(body);
-  const users = [];
-  content.forEach(item => {
-    if (!users.includes(item.userId)) {
-      users.push(item.userId);
-    }
-  });
-  let result = {};
-  users.forEach(item => {
-    let counter = 0;
-    content.forEach(element => {
-      if (item === element.userId && element.completed === true) {
-        counter += 1;
+  const tasks = JSON.parse(data);
+  tasks.forEach((task) => {
+    if (task.completed) {
+      if (dict[task.userId]) {
+        dict[task.userId]++;
+      } else {
+        dict[task.userId] = 1;
       }
-    });
-    if (counter > 0) {
-      result[item] = counter;
     }
   });
-  console.log(result);
+
+  console.log(dict);
 });
